@@ -10,12 +10,15 @@ have not made any effort to make them portable or consider how you might run any
 other than `plot.py` on other systems.
 
 The Python script `plot.py` should work on other systems as long as you install the
-dependencies: `numpy`, `scipy`, `pandas`, `matplotlib`, `Pillow`, and `pyatmos`.
+dependencies: `numpy`, `scipy`, `pandas`, `matplotlib`, `Pillow`, and `pyatmos`. The
+telemetry data extracted using the other two scripts is saved as a `.csv` file in this
+repository, so `plot.py` has the data it needs even if you can't run the other scripts
+on your system.
 
 * `download_and_crop.sh` is a bash script that calls `yt-dlp` to download SpaceX's
-  YouTube video of the launch, then passes the video stream to `ffmpeg`, which crops
-  the regions of the image containing telemetry data and save the resulting images to
-  file once per second of video.
+  YouTube video of the launch, then passes the video stream to `ffmpeg`, which crops the
+  regions of the image containing telemetry data and saves the resulting images to file
+  once per second of video.
 
 * `extract.py` uses `pytesseract` to call `tesseract` and perform optical character
   recognition on these images, and saves the resulting data to `telemetry.csv`. This
@@ -25,13 +28,13 @@ dependencies: `numpy`, `scipy`, `pandas`, `matplotlib`, `Pillow`, and `pyatmos`.
   live-updating dashboard during the next launch attempt, but this will be tricky and
   time-consuming to get right and so I probably won't end up doing that.
 
-* `plot.py` processes the telemetry data attempts to extract vertical and downrange
+* `plot.py` processes the telemetry data and attempts to extract vertical and downrange
   position, velocity, and acceleration. It also uses a model of atmospheric density and
   speed of sound with altitude to compute the dynamic pressure (q) and Mach number.
   Assuming that the velocity telemetry from SpaceX is in the non-inertial, rotating
   frame of the Earth, this script also uses the approximate planned bearing of the
-  vehicle to compute its position above the earth over its flight, and corrects for the
-  rotation speed of earth at that point to obtain its velocity in the non-rotating frame
+  vehicle to compute its position above the Earth over its flight, and corrects for the
+  rotation speed of Earth at that point to obtain its velocity in the non-rotating frame
   of the Earth. This is then used to calculate orbital parameters: apogee, perigee, and
   semimajor axis. All this data is plotted.
 
