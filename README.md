@@ -10,10 +10,10 @@ have not made any effort to make them portable or consider how you might run any
 other than `plot.py` on other systems.
 
 The Python script `plot.py` should work on other systems as long as you install the
-dependencies: `numpy`, `scipy`, `pandas`, `matplotlib`, `pillow`, and `pyatmos`.
+dependencies: `numpy`, `scipy`, `pandas`, `matplotlib`, `Pillow`, and `pyatmos`.
 
 * `download_and_crop.sh` is a bash script that calls `yt-dlp` to download SpaceX's
-  YouTube video of the launch, then passes the videop stream to `ffmpeg`, whcih crops
+  YouTube video of the launch, then passes the video stream to `ffmpeg`, which crops
   the regions of the image containing telemetry data and save the resulting images to
   file once per second of video.
 

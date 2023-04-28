@@ -42,7 +42,7 @@ BEARING = 97.5 * np.pi / 180
 dt = 1
 
 
-def interp_between_steps(arr):
+def interp_between_steps(arr, assume_truncated=False):
     """Replace contents of arr with values interpolated from the points where arr
     changes in value."""
     x_midpoints = []
@@ -50,8 +50,10 @@ def interp_between_steps(arr):
     for i, (left, right) in enumerate(zip(arr[:-1], arr[1:])):
         if left != right:
             x_midpoints.append(i + 0.5)
-            # y_midpoints.append(max(left, right))
-            y_midpoints.append((left + right) / 2)
+            if assume_truncated:
+                y_midpoints.append(max(left, right))
+            else:
+                y_midpoints.append((left + right) / 2)
 
 
     interpolator = interp1d(
@@ -94,14 +96,15 @@ def great_cicle(lat0, lon0, bearing, delta):
 
 
 # Load raw data:
-t, v_raw, y_raw = load_data()
+t_raw, v_raw, y_raw = load_data()
 
 # Replace altitude data and time with an interpolation between the points where we
 # actually see change:
 y_interp = interp_between_steps(y_raw)
+t = interp_between_steps(t_raw, assume_truncated=True)
 
 # Filter speed and altitude to remove spurious features. Note odd-numbered window length
-# means
+# necessary to avoid an offset (ensure there is an exact middle)
 v = savgol_filter(v_raw, window_length=9, polyorder=2)
 y = savgol_filter(y_interp, window_length=49, polyorder=2)
 
