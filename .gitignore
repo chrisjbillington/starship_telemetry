@@ -1,0 +1,7 @@
+frames/
+booster_frames/
+ship_frames/
+timestamp_frames/
+kalman.py
+map-test.py
+earth_2k.jpg
